@@ -12,16 +12,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+#首頁
+Route::get('/', 'App\Http\Controllers\HomeController@indexPage');
 
-Route::get('/', function () {
-    return view('welcome');
+//User route group
+Route::group(['prefix' => 'user'], function(){
+    //User auth
+    Route::group(['prefix' => 'auth'], function() {
+        #User sign up
+        Route::get('/sign-up', 'App\Http\Controllers\UserAuthController@signUpPage');
+        Route::post('/sign-up', 'App\Http\Controllers\UserAuthController@signUpProcess');
+        #User sign in
+        Route::get('/sign-in', 'App\Http\Controllers\UserAuthController@signInPage');
+        Route::post('/sign-in', 'App\Http\Controllers\UserAuthController@signInProcess');
+        #User sign out
+        Route::get('/sign-out', 'App\Http\Controllers\UserAuthController@signOut');
+    });
 });
 
-Route::get('/hello', function () {
-    return view('helloWorld');
-});
-
-Route::get('/hello/{id}', function ($id) {
-    return 'userID: '.$id;
-});
-
+?>
